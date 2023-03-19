@@ -1,0 +1,5 @@
+services:
+  star-wars-server:
+    image: clonardo/socketio-backend
+    ports:
+      - 3000:3000
