@@ -5,7 +5,6 @@ import { log } from './logger'
 
 export class SearchConsole {
   private client: Client
-  private currentResultCount = 0
   constructor(client: Client) {
     this.client = client
     this.client.registerSearchHandler(this.searchEventCallback)
@@ -19,8 +18,7 @@ export class SearchConsole {
       this.prompt()
     } else {
       this.printResult(data)
-      this.currentResultCount++
-      if (this.currentResultCount === data.resultCount) {
+      if (data.page === data.resultCount) {
         log('\nFound someone, you have, eh? Pass on what you have learned.\n', chalk.yellow)
         // final result in event response, prompt for new search.
         this.prompt()
@@ -33,7 +31,6 @@ export class SearchConsole {
       input: process.stdin,
       output: process.stdout,
     })
-    this.currentResultCount = 0
     reader.question(
       chalk.yellowBright('Search for people in a galaxy, far, far away: '),
       (query: string) => {
